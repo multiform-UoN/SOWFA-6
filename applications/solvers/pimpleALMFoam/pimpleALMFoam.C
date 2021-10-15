@@ -85,10 +85,16 @@ int main(int argc, char *argv[])
         runTime++;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
+        
+        // Update turbine array
+        turbines.update();
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
         {
+            // Update source term ??
+            // momentumSourceTerm.update(pimple.finalPimpleIter());
+            
             if (pimple.firstPimpleIter() || moveMeshOuterCorrectors)
             {
                 mesh.update();
@@ -137,6 +143,8 @@ int main(int argc, char *argv[])
             << "  ClockTime = " << runTime.elapsedClockTime() << " s"
             << nl << endl;
     }
+    
+    turbines.end()
 
     Info<< "End\n" << endl;
 

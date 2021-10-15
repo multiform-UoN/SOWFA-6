@@ -44,5 +44,12 @@ autoPtr<incompressible::momentumTransportModel> turbulence
     incompressible::momentumTransportModel::New(U, phi, laminarTransport)
 );
 
+// Create source term object (not needed - ABL?)
+//drivingForce<vector> momentumSourceTerm(ABLProperties, "momentum",U);
+
 #include "createMRF.H"
 #include "createFvOptions.H"
+bool bodyForceStabilization = mesh.schemesDict().lookupOrDefault<bool>("bodyForceStabilization",true);
+
+// Create an object of the horizontalWindTurbineArray class if there is to be a turbine array
+turbineModels::horizontalAxisWindTurbinesALM turbines(U);
