@@ -41,6 +41,7 @@ Description
 #include "fvOptions.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
+#include "horizontalAxisWindTurbinesALMAdvanced.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -144,7 +145,7 @@ int main(int argc, char *argv[])
             << nl << endl;
     }
     
-    turbines.end()
+    //turbines.end()
 
     Info<< "End\n" << endl;
 
