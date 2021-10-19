@@ -27,7 +27,7 @@ if (pimple.momentumPredictor())
             (
                 (
                   - fvc::snGrad(p)
-                  + scalar(bodyForceStabilization) * fvc::flux(turbines.force())/mesh.magSf()
+                  + scalar(bodyForceStabilization) * 			  fvc::flux(turbines.force())/mesh.magSf()
                 )*mesh.magSf()
             )
         );

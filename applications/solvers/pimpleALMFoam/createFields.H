@@ -1,5 +1,6 @@
 #include "createRDeltaT.H"
 
+
 Info<< "Reading field p\n" << endl;
 volScalarField p
 (
@@ -52,4 +53,4 @@ autoPtr<incompressible::momentumTransportModel> turbulence
 bool bodyForceStabilization = mesh.schemesDict().lookupOrDefault<bool>("bodyForceStabilization",true);
 
 // Create an object of the horizontalWindTurbineArray class if there is to be a turbine array
-turbineModels::horizontalAxisWindTurbinesALM turbines(U);
+turbineModels::horizontalAxisWindTurbinesALMAdvanced turbines(U);
