@@ -746,9 +746,13 @@ horizontalAxisWindTurbinesALMAdvanced::horizontalAxisWindTurbinesALMAdvanced
         bladePointUserDef.append(List<List<scalar> >(NumBl[j], List<scalar>(numBladePoints[i],0.0)));
         bladePointAirfoil[i].setSize(NumBl[j]);
       //bladePointAirfoil.append(List<List<label> >(NumBl[j], List<label>(numBladePoints[i],0)));
-        for(int k = 0; k < NumBl[j]; k++)
+        
+	printDebug();
+	
+	for(int k = 0; k < NumBl[j]; k++)
         {
-
+	    Info << "k= " << k << endl;
+	    Info << "Precone " << PreCone[j][k] << endl;
             bladePointAirfoil[i][k].setSize(numBladePoints[i]);
             vector root = rotorApex[i];
             scalar beta = PreCone[j][k] - ShftTilt[j];
@@ -3778,7 +3782,7 @@ void horizontalAxisWindTurbinesALMAdvanced::update()
     {
         printOutputFiles();
     }
-
+    
     // Now that at least the first time step is finished, set pastFirstTimeStep
     // to true.
     pastFirstTimeStep = true;
