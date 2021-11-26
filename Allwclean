@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Standard actuator turbine models.
-#wclean src/turbineModels/turbineModelsStandard
+wclean src/turbineModels/turbineModelsStandard
 
 # The atmospheric LES solver for precursors.
 wclean applications/solvers/pimpleALMFoam
