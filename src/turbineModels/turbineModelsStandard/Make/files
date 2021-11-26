@@ -1,3 +1,4 @@
 horizontalAxisWindTurbinesALMAdvanced/horizontalAxisWindTurbinesALMAdvanced.C
+propALMAdvanced/propALMAdvanced.C
 
 LIB = $(FOAM_USER_LIBBIN)/libSOWFATurbineModelsStandard
