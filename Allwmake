@@ -1,73 +1,7 @@
 #!/bin/bash
 
-
-# Turbulence models.
-wmake src/TurbulenceModels/incompressible
-wmake src/TurbulenceModels/turbulenceModels
-
-
-
-# Custom boundary conditions.
-wmake src/boundaryConditions
-
-
 # Standard actuator turbine models.
-#wmake src/turbineModels/turbineModelsStandard
+wmake src/turbineModels/turbineModelsStandard
 
-
-# OpenFAST-coupled actuator turbine models.
-if [ -z ${OPENFAST_DIR+x} ]
-then
-    echo "OPENFAST_DIR is not set. Not compiling OpenFAST interface."
-else
-    if [ -d ${OPENFAST_DIR} ] 
-    then
-	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Attempting to compile OpenFAST interface."
-        wmake src/turbineModels/turbineModelsOpenFAST
-    else
-	echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Directory doesn't exist or I can't access it. Skipping compilation of OpenFAST interface."
-    fi	
-fi
-
-# Custom mesh Tools
-wmake src/meshTools
-
-# ABL forcing objects
-wmake src/ABLForcing
-
-
-# Custom sampling (this includes sampling on an annulus).
-wmake src/sampling
-
-
-# Custom file formats (like structured VTK).
-wmake src/fileFormats
-
-
-# Custom function objects (this includes planar and temporal averaging, and lidar sampling).
-wmake src/functionObjects/field
-wmake src/functionObjects/utilities
-
-
-# Utility to set the initial fields for the ABL solver.
-wmake applications/utilities/setFieldsABL
-wmake applications/utilities/writeCellCenters
-
-
-# The atmospheric LES solver for precursors.
-wmake applications/solvers/superDeliciousVanilla
-
-
-# The atmospheric LES solver with a link to the actuator turbine model.
-if [ -z ${OPENFAST_DIR+x} ]
-then
-    echo "OPENFAST_DIR is not set. Not compiling OpenFASTcoupled solver."
-else
-    if [ -d ${OPENFAST_DIR} ]
-    then
-        echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Attempting to compile OpenFAST-coupled solver."
-        wmake applications/solvers/superDeliciousVanilla.turbine
-    else
-        echo "OPENFAST_DIR is set to '${OPENFAST_DIR}'. Directory doesn't exist or I can't access it. Skipping compilation of OpenFAST-coupled solver."
-    fi
-fi
+# The solver for precursors.
+wmake applications/solvers/pimpleALMFoam
