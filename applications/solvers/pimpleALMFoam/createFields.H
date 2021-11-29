@@ -53,4 +53,4 @@ autoPtr<incompressible::momentumTransportModel> turbulence
 bool bodyForceStabilization = mesh.schemesDict().lookupOrDefault<bool>("bodyForceStabilization",true);
 
 // Create an object of the horizontalWindTurbineArray class if there is to be a turbine array
-turbineModels::horizontalAxisWindTurbinesALMAdvanced turbines(U);
+turbineModels::propALMAdvanced turbines(U);
