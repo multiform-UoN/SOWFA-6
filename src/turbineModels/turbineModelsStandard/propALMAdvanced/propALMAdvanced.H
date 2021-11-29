@@ -539,6 +539,9 @@ private:
         //- Rotate the blades.
         void rotateBlades();
 
+        //- Computer the rotor speed.
+        void computeRotSpeed();
+
         //- Find out which processor zone each actuator line point lies within.
         //  (Which processor is controlling each actuator line point?)
         void findBladePointControlProcNo();

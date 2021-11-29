@@ -647,7 +647,7 @@ propALMAdvanced::propALMAdvanced
 
     // Rotate the rotor to initial azimuth angle.
     deltaAzimuth =  rotorAzimuth;
-    rotateBlades(); 
+    rotateBlades();
 
     // Define the sets of search cells when sampling velocity and projecting
     // the body force.
@@ -841,8 +841,6 @@ void propALMAdvanced::updateTurbinesControlled()
     }
 }
 
-
-
 void propALMAdvanced::rotateBlades()
 {  
     // Perform rotation turbine by turbine.
@@ -880,6 +878,16 @@ void propALMAdvanced::rotateBlades()
                 rotorAzimuth[i] -= 2.0 * Foam::constant::mathematical::pi;
             }
         }
+    }
+}
+
+void propALMAdvanced::computeRotSpeed()
+{
+    // Proceed turbine by turbine.
+    forAll(rotorSpeed, i)
+    {
+        // Compute the change in blade azimuth angle based on the time step and current rotor speed.
+        deltaAzimuth[i] = rotorSpeed[i] * dt;
     }
 }
 
@@ -2046,7 +2054,8 @@ void propALMAdvanced::update()
 
         computeBladePointWindVectors();
 
-        // Update the rotor state.
+        // Update the rotor state
+	computeRotSpeed();
         rotateBlades();
 
         // Find search cells.
@@ -2072,6 +2081,7 @@ void propALMAdvanced::update()
     else if(actuatorUpdateType[0] == "newPosition")
     {
         // Update the rotor state.
+	computeRotSpeed();
         rotateBlades();
 
         // Find search cells.
@@ -2120,6 +2130,7 @@ void propALMAdvanced::update()
         if (outputIndex >= outputInterval)
         {
             outputIndex = 0;
+	    openOutputFiles();
             printOutputFiles();
         }
     }
@@ -2128,11 +2139,13 @@ void propALMAdvanced::update()
         if ((runTime_.value() - lastOutputTime) >= outputInterval)
         {
             lastOutputTime += outputInterval;
+	    openOutputFiles();
             printOutputFiles();
         }
     }
     else
     {
+	openOutputFiles();
         printOutputFiles();
     }
     
