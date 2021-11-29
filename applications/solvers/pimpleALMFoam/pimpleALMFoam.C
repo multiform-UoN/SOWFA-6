@@ -41,7 +41,7 @@ Description
 #include "fvOptions.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
-#include "horizontalAxisWindTurbinesALMAdvanced.H"
+#include "propALMAdvanced.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
