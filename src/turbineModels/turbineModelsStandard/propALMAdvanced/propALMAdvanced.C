@@ -512,8 +512,6 @@ propALMAdvanced::propALMAdvanced
         bladePointUserDef.append(List<List<scalar> >(NumBl[j], List<scalar>(numBladePoints[i],0.0)));
         bladePointAirfoil[i].setSize(NumBl[j]);
       //bladePointAirfoil.append(List<List<label> >(NumBl[j], List<label>(numBladePoints[i],0)));
-        
-	printDebug();
 	
 	for(int k = 0; k < NumBl[j]; k++)
         {
