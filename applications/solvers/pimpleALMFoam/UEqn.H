@@ -7,7 +7,8 @@ tmp<fvVectorMatrix> tUEqn
     fvm::ddt(U) + fvm::div(phi, U)
   + MRF.DDt(U)
   + turbulence->divDevSigma(U)
-  - (1.0 - scalar(bodyForceStabilization)) * turbines.force()
+  //- (1.0 - scalar(bodyForceStabilization)) * turbines.force()
+  - turbines.force()
  ==
     fvOptions(U)
 );
