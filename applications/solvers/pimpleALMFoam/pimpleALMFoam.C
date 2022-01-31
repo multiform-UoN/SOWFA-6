@@ -124,9 +124,7 @@ int main(int argc, char *argv[])
             }
 
             #include "UEqn.H"
-          
-            debugForces.write();
-          
+            debugForce.write();
             // --- Pressure corrector loop
             while (pimple.correct())
             {
