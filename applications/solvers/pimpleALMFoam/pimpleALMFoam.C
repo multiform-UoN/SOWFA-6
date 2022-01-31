@@ -124,7 +124,9 @@ int main(int argc, char *argv[])
             }
 
             #include "UEqn.H"
-
+          
+            debugForces.write();
+          
             // --- Pressure corrector loop
             while (pimple.correct())
             {
@@ -136,7 +138,6 @@ int main(int argc, char *argv[])
                 laminarTransport.correct();
                 turbulence->correct();
             }
-            debugForces.write();
         }
         
         runTime.write();
