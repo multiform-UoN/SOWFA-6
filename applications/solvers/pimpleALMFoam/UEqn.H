@@ -14,6 +14,12 @@ tmp<fvVectorMatrix> tUEqn
 );
 fvVectorMatrix& UEqn = tUEqn.ref();
 
+volVectorField debugForces
+(
+    "debugForce",
+    turbines->force()
+);
+
 UEqn.relax();
 
 fvOptions.constrain(UEqn);
