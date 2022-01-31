@@ -14,9 +14,9 @@ tmp<fvVectorMatrix> tUEqn
 );
 fvVectorMatrix& UEqn = tUEqn.ref();
 
-volVectorField debugForces
+volVectorField debugForce
 (
-    "debugForces",
+    "debugForce",
     turbines.force()
 );
 
