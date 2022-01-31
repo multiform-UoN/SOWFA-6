@@ -29,6 +29,19 @@ volVectorField U
     mesh
 );
 
+volVectorField debugForce
+(
+    IOobject
+    (
+        "debugForce",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+       ),
+        mesh
+);
+
 #include "createPhi.H"
 
 
@@ -50,7 +63,7 @@ autoPtr<incompressible::momentumTransportModel> turbulence
 
 #include "createMRF.H"
 #include "createFvOptions.H"
-//bool bodyForceStabilization = mesh.schemesDict().lookupOrDefault<bool>("bodyForceStabilization",true);
+bool bodyForceStabilization = mesh.schemesDict().lookupOrDefault<bool>("bodyForceStabilization",true);
 
-// Create an object of the horizontalWindTurbineArray class if there is to be a turbine array
+// Create an object of the propALMAdvanced class if there is to be a turbine array
 turbineModels::propALMAdvanced turbines(U);
