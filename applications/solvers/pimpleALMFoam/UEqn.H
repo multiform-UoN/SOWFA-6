@@ -16,8 +16,8 @@ fvVectorMatrix& UEqn = tUEqn.ref();
 
 volVectorField debugForces
 (
-    "debugForce",
-    turbines->force()
+    "debugForces",
+    turbines.force()
 );
 
 UEqn.relax();
