@@ -137,7 +137,8 @@ int main(int argc, char *argv[])
                 turbulence->correct();
             }
         }
-
+        
+        debugForces.write();
         runTime.write();
 
         Info<< "ExecutionTime = " << runTime.elapsedCpuTime() << " s"
