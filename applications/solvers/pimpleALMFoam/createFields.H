@@ -29,19 +29,6 @@ volVectorField U
     mesh
 );
 
-volVectorField debugForce
-(
-    IOobject
-    (
-        "debugForce",
-        runTime.timeName(),
-        mesh,
-        IOobject::NO_READ,
-        IOobject::AUTO_WRITE
-       ),
-        mesh
-);
-
 #include "createPhi.H"
 
 
