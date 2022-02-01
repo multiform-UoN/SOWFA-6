@@ -8,7 +8,8 @@
                 scalar speedErrorLast = speedError[i];
 
                 // Compute the low speed shaft speed error.
-                speedError[i] = rotorSpeedF[i] - RatedRotSpeed[j];
+                // speedError[i] = rotorSpeedF[i] - RatedRotSpeed[j];
+                speedError[i] = rotorSpeedF[i]-rotorSpeed[i];
 
                 // Numerically integrate the speed error over time.
                 intSpeedError[i] += speedError[i] * dt;
