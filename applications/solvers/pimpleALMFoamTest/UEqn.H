@@ -7,17 +7,17 @@ tmp<fvVectorMatrix> tUEqn
     fvm::ddt(U) + fvm::div(phi, U)
   + MRF.DDt(U)
   + turbulence->divDevSigma(U)
-  //- (1.0 - scalar(bodyForceStabilization)) * turbines.force()
+  - (1.0 - scalar(bodyForceStabilization)) * turbines.force()
  ==
     fvOptions(U)
 );
 fvVectorMatrix& UEqn = tUEqn.ref();
 
-volVectorField debugForce
-(
-    "debugForce",
-    turbines.force()
-);
+//volVectorField debugForce
+//(
+//   "debugForce",
+//    turbines.force()
+//);
 
 UEqn.relax();
 
@@ -33,7 +33,7 @@ if (pimple.momentumPredictor())
             (
                 (
                   - fvc::snGrad(p)
-                  //+ scalar(bodyForceStabilization) * fvc::flux(turbines.force())/mesh.magSf()
+                  + scalar(bodyForceStabilization) * fvc::flux(turbines.force())/mesh.magSf()
                 )*mesh.magSf()
             )
         );
