@@ -259,7 +259,7 @@ private:
             //  above) or counter-clockwise rotation for a counter-clockwise
             //  rotating turbine.
             DynamicList<scalar> rotorSpeed;
-
+	    DynamicList<scalar> rotorSpeedF;
 
             //- Speed error between reference low speed shaft and filtered low speed
             //  shaft speed for use in blade pitch PID control (rad/s).
