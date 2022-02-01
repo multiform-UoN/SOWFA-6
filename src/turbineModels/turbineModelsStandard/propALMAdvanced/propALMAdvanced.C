@@ -308,11 +308,26 @@ propALMAdvanced::propALMAdvanced
         TipRad.append(scalar(readScalar(turbineProperties.lookup("TipRad"))));
         HubRad.append(scalar(readScalar(turbineProperties.lookup("HubRad"))));
         PreCone.append(turbineProperties.lookup("PreCone"));
-        SpeedFilterCornerFrequency.append(scalar(readScalar(turbineProperties.lookup("SpeedFilterCornerFrequency"))));
+        BladePitchControllerType.append(word(turbineProperties.lookup("BladePitchControllerType")));
+	BladePitchRateLimiter.append(bool(readBool(turbineProperties.lookup("BladePitchRateLimiter"))));  
+	SpeedFilterCornerFrequency.append(scalar(readScalar(turbineProperties.lookup("SpeedFilterCornerFrequency"))));
 
-
+	RateLimitBladePitch.append(readScalar(turbineProperties.subDict("BladePitchControllerParams").lookup("RateLimitBladePitch")));
+        if (BladePitchControllerType[i] == "none")
+        {
+            // Read nothing.
+        }
+        else if (BladePitchControllerType[i] == "PID")
+        {
+            PitchK.append(readScalar(turbineProperties.subDict("BladePitchControllerParams").lookup("PitchK")));
+            PitchMin.append(readScalar(turbineProperties.subDict("BladePitchControllerParams").lookup("PitchMin")));
+            PitchMax.append(readScalar(turbineProperties.subDict("BladePitchControllerParams").lookup("PitchMax")));
+            PitchControlKP.append(readScalar(turbineProperties.subDict("BladePitchControllerParams").lookup("PitchControlKP")));
+            PitchControlKI.append(readScalar(turbineProperties.subDict("BladePitchControllerParams").lookup("PitchControlKI")));
+            PitchControlKD.append(readScalar(turbineProperties.subDict("BladePitchControllerParams").lookup("PitchControlKD")));
+        }
+	
         AirfoilType.append(turbineProperties.lookup("Airfoils"));
-
 
         BladeData.append(turbineProperties.lookup("BladeData"));
         {
@@ -450,7 +465,9 @@ propALMAdvanced::propALMAdvanced
         PreCone[i] = degRad * PreCone[i];
     }
 
-    
+    PitchK = degRad * PitchK;
+    PitchMin = degRad * PitchMin;
+    PitchMax = degRad * PitchMax;
 
 
     // Calculate rotor apex locations. (The
@@ -886,6 +903,44 @@ void propALMAdvanced::computeRotSpeed()
     {
         // Compute the change in blade azimuth angle based on the time step and current rotor speed.
         deltaAzimuth[i] = rotorSpeed[i] * dt;
+    }
+}
+
+void horizontalAxisWindTurbinesALMAdvanced::controlBladePitch()
+{
+    // Proceed turbine by turbine.
+    forAll(bladePitch, i)
+    {
+
+        // Get the turbine type index.
+        int j = turbineTypeID[i];
+        
+        // Initialize the gain scheduling variable.
+        scalar GK = 0.0;
+
+        // Initialize the commanded pitch variable.
+        scalar bladePitchCommanded = bladePitch[i]*degRad;
+
+
+        // Apply a controller to update the blade pitch position.
+        if (BladePitchControllerType[j] == "none")
+        {
+            #include "controllers/bladePitchControllers/none.H"
+        }
+
+        else if (BladePitchControllerType[j] == "PID")
+        {
+            #include "controllers/bladePitchControllers/PID.H"
+        }
+
+        // Apply pitch rate limiter.
+        if (BladePitchRateLimiter[j])
+        {
+            #include "limiters/bladePitchRateLimiter.H"
+        }
+
+        // Update the pitch array.
+        bladePitch[i] = bladePitchCommanded/degRad;
     }
 }
 
@@ -2053,6 +2108,7 @@ void propALMAdvanced::update()
         computeBladePointWindVectors();
 
         // Update the rotor state
+	controlBladePitch();
 	computeRotSpeed();
         rotateBlades();
 
@@ -2079,6 +2135,7 @@ void propALMAdvanced::update()
     else if(actuatorUpdateType[0] == "newPosition")
     {
         // Update the rotor state.
+	controlBladePitch();
 	computeRotSpeed();
         rotateBlades();
 
@@ -2434,6 +2491,8 @@ void propALMAdvanced::printDebug()
     Info << "TipRad = " << TipRad << endl;
     Info << "HubRad = " << HubRad << endl;
     Info << "PreCone = " << PreCone << endl;
+    Info << "BladePitchControllerType = " << BladePitchControllerType << endl;
+    Info << "BladePitchRateLimiter = " << BladePitchRateLimiter << endl;
     Info << "SpeedFilterCornerFrequency = " << SpeedFilterCornerFrequency << endl;
     Info << "AirfoilType = " << AirfoilType << endl;
     Info << "BladeData = " << BladeData << endl;
