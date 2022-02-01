@@ -567,6 +567,9 @@ private:
         //- Computer the rotor speed.
         void computeRotSpeed();
 	
+	//- Filter the rotor speed with a low pass filter for control system.
+        void filterRotSpeed();
+	
 	//- Calculate the blade pitch.
         void controlBladePitch();
 
