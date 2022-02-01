@@ -237,6 +237,7 @@ propALMAdvanced::propALMAdvanced
 	shftDir.append(vector(turbineArrayProperties.subDict(turbineName[i]).lookup("shftDir")));
 
         rotorSpeed.append(scalar(readScalar(turbineArrayProperties.subDict(turbineName[i]).lookup("RotSpeed"))));
+	rotorSpeedF.append(rotorSpeed[i]);
         speedError.append(0.0);
         intSpeedError.append(0.0);
 
@@ -458,6 +459,7 @@ propALMAdvanced::propALMAdvanced
     // have to be done in loops).
     rotorAzimuth   = degRad * rotorAzimuth;
     rotorSpeed  = rpmRadSec * rotorSpeed;
+    rotorSpeedF = rpmRadSec * rotorSpeedF;
     SpeedFilterCornerFrequency = rpsRadSec * SpeedFilterCornerFrequency;
 
     forAll(PreCone,i)
@@ -903,6 +905,22 @@ void propALMAdvanced::computeRotSpeed()
     {
         // Compute the change in blade azimuth angle based on the time step and current rotor speed.
         deltaAzimuth[i] = rotorSpeed[i] * dt;
+    }
+}
+	
+void propALMAdvanced::filterRotSpeed()
+{
+    // Proceed turbine by turbine.
+    forAll(rotorSpeedF, i)
+    {
+        // Get the turbine type index.
+        int j = turbineTypeID[i];
+
+        // Compute the filtering coefficient based on the corner frequency and time step.
+        scalar alpha = exp(-dt * SpeedFilterCornerFrequency[j]);
+
+        // Apply a simple recursive, single-pole, low-pass filter.
+        rotorSpeedF[i] = (1.0 - alpha)*rotorSpeed[i] + alpha*rotorSpeedF[i];
     }
 }
 
@@ -2316,6 +2334,9 @@ void propALMAdvanced::openOutputFiles()
 
         rotorSpeedFile_ = new OFstream(rootDir/time/"rotorSpeed");
        *rotorSpeedFile_ << "#Turbine    Time(s)    dt(s)    rotor rotation rate(rpm)" << endl;
+	    
+	rotorSpeedFFile_ = new OFstream(rootDir/time/"rotorSpeedFiltered");
+       *rotorSpeedFFile_ << "#Turbine    Time(s)    dt(s)    filtered rotor rotation rate(rpm)" << endl;
 
         rotorAzimuthFile_ = new OFstream(rootDir/time/"rotorAzimuth");
        *rotorAzimuthFile_ << "#Turbine    Time(s)    dt(s)    blade 1 azimuth angle (degrees)" << endl;
