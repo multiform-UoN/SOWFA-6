@@ -251,7 +251,7 @@ private:
             //  "cw" for clockwise and "ccw" for counter-clockwise.
             DynamicList<word> rotationDir;
 			
-			//- Direction of the shaft (or turbine) as viewed from upwind
+	    //- Direction of the shaft (or turbine) as viewed from upwind
 	    DynamicList<vector> shftDir;
 			
             //- Initial or fixed rotor speed (rpm).  A positive value means
@@ -310,14 +310,39 @@ private:
 
             //- Coning angle of blades (degrees) (one for each blade).
             DynamicList<List<scalar> > PreCone;
+	
+	    //- Pitch controller type (NOT IMPLEMENTED, just remains at 
+            //  specified pitch).
+            DynamicList<word> BladePitchControllerType;
+	
+	    //- Engage a blade pitch rate limiter.
+            DynamicList<bool> BladePitchRateLimiter;
 
             //- Parameter for low-pass speed filter for control system (Hz).
             DynamicList<scalar> SpeedFilterCornerFrequency;
+	
+	    //- Pitch control parameters.
+                //- Maximum rate of change of blade pitch (degree/s).
+                DynamicList<scalar> RateLimitBladePitch;
 
+                //- Minimum pitch (degrees).
+                DynamicList<scalar> PitchMin;
+
+                //- Maximum pitch (degrees).
+                DynamicList<scalar> PitchMax;
+
+                //- Blade pitch angle at which the sensitivity of power to
+                //  changes in blade pitch has doubled from its value at the
+                //  rated operating point (degrees).
+                DynamicList<scalar> PitchK;
+
+                //- Pitch control gains.
+                DynamicList<scalar> PitchControlKP; // (s)
+                DynamicList<scalar> PitchControlKI; // (unitless)
+                DynamicList<scalar> PitchControlKD; // (s^2)
 
             //- List of airfoils that compose turbine blade;
             DynamicList<List<word> > AirfoilType;
-
 
             //- Lists of blade data for each turbine type.
                 //- Overall blade data array.
@@ -541,6 +566,9 @@ private:
 
         //- Computer the rotor speed.
         void computeRotSpeed();
+	
+	//- Calculate the blade pitch.
+        void controlBladePitch();
 
         //- Find out which processor zone each actuator line point lies within.
         //  (Which processor is controlling each actuator line point?)
