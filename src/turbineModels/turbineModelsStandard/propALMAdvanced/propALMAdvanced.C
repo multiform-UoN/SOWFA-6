@@ -906,7 +906,7 @@ void propALMAdvanced::computeRotSpeed()
     }
 }
 
-void horizontalAxisWindTurbinesALMAdvanced::controlBladePitch()
+void propALMAdvanced::controlBladePitch()
 {
     // Proceed turbine by turbine.
     forAll(bladePitch, i)
