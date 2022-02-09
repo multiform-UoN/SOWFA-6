@@ -37,7 +37,7 @@ Description
 #include "singlePhaseTransportModel.H"
 #include "kinematicMomentumTransportModel.H"
 #include "pimpleControl.H"
-#include "CorrectPhi.H"
+#include "correctPhi.H"
 #include "fvOptions.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
