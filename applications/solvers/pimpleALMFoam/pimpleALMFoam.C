@@ -37,7 +37,7 @@ Description
 #include "singlePhaseTransportModel.H"
 #include "kinematicMomentumTransportModel.H"
 #include "pimpleControl.H"
-#include "correctPhi.H"
+#include "CorrectPhi.H"
 #include "fvOptions.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
@@ -104,13 +104,13 @@ int main(int argc, char *argv[])
                 {
                     MRF.update();
 
-                    if (correctPhi)
+                    if (CorrectPhi)
                     {
                         // Calculate absolute flux
                         // from the mapped surface velocity
                         phi = mesh.Sf() & Uf();
 
-                        #include "correctPhi.H"
+                        #include "CorrectPhi.H"
 
                         // Make the flux relative to the mesh motion
                         fvc::makeRelative(phi, U);
