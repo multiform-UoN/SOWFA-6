@@ -1,3 +1,9 @@
+Edited SOWFA-6 code to create a simple Actuator Line Model for use in standalone propeller simulations.
+
+
+
+# Original README
+
 All of these files compose the current version of the SOWFA (Simulator for 
 Offshore Wind Farm Applications), created at the National Renewable Energy 
 Laboratory (NREL).  The files are based on the OpenFOAM software and are 
@@ -16,33 +22,6 @@ Optional OpenFAST Version:  dev
 
 
 
-Solvers and Codes Included:
-A.  Solvers
-    1.  ABLSolver - A  solver, primarily for performing large-eddy simulation
-        (LES), for computing atmospheric boundary layer turbulent flow with
-        the ability to specify surface roughness, stability, and wind speed
-        and direction. It must be used with hexahedral meshes (like those
-        created by OpenFOAM's blockMesh utility) in order for it to perform
-        the planar averaging it does.
-    2.  ABLTerrainSolver - Basically the same as ABLSolver, but the planar
-        averaging done in ABLSolver is replaced with time averaging since
-        planar averaging does not make sense for terrain.
-    3.  windPlantSolver.<X> - A specialized version of ABLTerrainSolver for
-        performing LES of wind plant flow.  It includes the ability to
-        include actuator line turbine models with local grid refinement
-        around the turbine. The <X> corresponds to the turbine type and is
-        "ALM", "ADM", "ALMAdvanced", or "ALMAdvancedFASTv8".
-    5.  pisoFoamTurbine.<X> - OpenFOAM's standard pisoFoam solver, but with the
-        actuator turbine models included.  This is useful for simple cases, or
-        for cases where atmospheric effects are not important, like turbines
-        in wind tunnels.
-    6.  turbineTestHarness.<X> - A simple code coupled to the actuator line model
-        that allows you to quickly test a actuator line model setup.  It mimics
-        pisoFoam, but the governing equations are not actually solved, the
-        velocity field is constant through the domain, but can change as a 
-        function of time.  Therefore, no axial induction is computed.  But, it
-        lets one quickly test out a new actuator line model setup to see if 
-        things like pitch control gains are appropriate.
 
     NOTE:  These solvers have been primarily tested for flow over flat terrain.
     We have tested the non-flat terrain capabilities less, but will do so in the
