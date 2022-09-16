@@ -1,8 +1,10 @@
-Edited SOWFA-6 code to create a simple Actuator Line Model for use in standalone propeller simulations.
+## Edited SOWFA-6 code to create a simple Actuator Line Model for use in standalone propeller simulations.
 
+Added *propALMAdvanced* ALM code for this purpose: /src/turbineModels/turbineModelsStandard/propALMAdvanced/
 
+Added solver *pimpleALMFoam* as a modified pimpleFOAM solver to include the propALMAdvanced turbines: applications/solvers/pimpleALMFoam
 
-# Original README
+## Original README
 
 All of these files compose the current version of the SOWFA (Simulator for 
 Offshore Wind Farm Applications), created at the National Renewable Energy 
