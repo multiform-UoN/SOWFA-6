@@ -1,0 +1,52 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      turbineProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+NumBl                       2;
+TipRad                      0.101;
+HubRad                      0.022;
+PreCone                     (0 0);
+BladePitchControllerType    "none";
+BladePitchRateLimiter       false;
+SpeedFilterCornerFrequency  2.0;
+
+BladePitchControllerParams
+{
+    RateLimitBladePitch       999.9;
+    PitchMin                  0.000;
+    PitchMax                 80.000;
+    PitchK                    999.9;
+    PitchControlKP            999.9;
+    PitchControlKI            999.9;
+    PitchControlKD            0.000;
+}
+
+Airfoils
+(  
+    "CLARKY500k"
+);
+
+BladeData
+(
+//  radius(m)     c(m)     twist(deg)  thickness(% of c)  userDef airfoil 
+    (0.02291    0.015903      45.565        0.203           0       0)
+    (0.04291    0.016594      38.622        0.157           0       0)
+    (0.06291    0.015873      31.549        0.135           0       0)
+    (0.08291    0.013253      25.243        0.115           0       0)
+    (0.10291    0.009050      19.845        0.105           0       0)
+    (0.10991    0.007113      18.342        0.102           0       0)
+);
+

@@ -1,0 +1,13 @@
+
+mkdir 0
+cp -r 0.orig/* 0/
+
+# fluent3DMeshToFoam *.msh > log.mesh
+blockMesh
+
+decomposePar -force > log.decompose
+
+mpiexec -n 20 pimpleALMFoam -parallel > log.run
+
+# runApplication reconstructParMesh -constant
+reconstructPar > log.reconstruct

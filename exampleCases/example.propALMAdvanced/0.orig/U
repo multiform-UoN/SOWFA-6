@@ -1,0 +1,74 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    OUTLET
+    {
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
+    }
+
+    INLET
+    {
+        type		fixedValue;
+	value		uniform (10 0 0);
+	name		fixedValue;
+	/*
+	code
+	#{
+	    const fvPatch& boundaryPatch = patch();
+	    const vectorField& Cf = boundaryPatch.Cf();
+	    vectorField& field = *this;
+
+	    const scalar t = this->db().time().value();
+	    const scalar sigma = 100;
+	    const scalar omega = 3;
+	    const scalar T = 60;
+
+	    const scalar G = 5*(1-exp(-sigma*pow(t,2)))*(1-exp(-sigma*pow(T-t,2)))*(sin(omega*t)+cos(omega*t));
+
+	    forAll(Cf, faceI)
+	    {
+		const scalar x = Cf[faceI].x();
+		const scalar y = Cf[faceI].y();
+		field[faceI] = vector( G*(cos(x)+sin(y)), G*(cos(y)+sin(x)), 10+G*(cos(x)+sin(y)) );
+	    }
+	#};
+       */
+    }
+
+
+    WALLS
+    {
+	type		slip;
+    }
+
+    "proc.*"
+    {
+    	type            processor;
+    }
+
+}
+
+
+// ************************************************************************* //

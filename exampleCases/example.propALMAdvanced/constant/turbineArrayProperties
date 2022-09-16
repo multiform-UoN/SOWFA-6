@@ -1,0 +1,51 @@
+
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      turbineProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+globalProperties
+{
+    outputControl       "runTime";
+    outputInterval       1;
+}
+
+
+turbine0
+{
+    turbineType                      "CLARKY_coarse";
+    baseLocation                     (0.5 0.25 0.25);
+    numBladePoints                    15;
+    bladePointDistType               "uniform";
+    bladeSearchCellMethod            "disk";
+//    bladeActuatorPointInterpType     "linear";
+    bladeActuatorPointInterpType     "cellCenter";
+    actuatorUpdateType               "oldPosition";
+//    actuatorUpdateType               "newPosition";
+    velocityDragCorrType             "none";
+    bladeForceProjectionType         "uniformGaussian";
+    bladeForceProjectionDirection    "localVelocityAligned";
+//    bladeForceProjectionDirection    "sampleVelocityAligned";
+    bladeEpsilon                     (0.03 0.0 0.0);
+    tipRootLossCorrType              "none";
+//    tipRootLossCorrType              "Glauert";
+//    rotationDir                      "ccw";
+    rotationDir                      "ccw";
+    shftDir			     (1.0 0.0 0.0);
+    Azimuth                           0.0;
+    Pitch			      0.0;
+    RotSpeed                          3000;
+    fluidDensity                      1.23;
+}

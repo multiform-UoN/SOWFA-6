@@ -1,0 +1,8 @@
+rm -r proc*
+rm -r 0/
+rm -r log*
+rm -r constant/polyMesh
+rm -r ?
+rm -r ?.?
+rm -r post*
+
